@@ -348,9 +348,30 @@ The Etsy API uses two forms of authentication:
 | Financial data | OAuth 2.0 Access Token |
 
 **API Key**: Pass as `ETSY_API_KEY` env var  
-**OAuth Token**: Pass as `ETSY_ACCESS_TOKEN` env var
+**OAuth Token**: Pass as `ETSY_ACCESS_TOKEN` env var, or use the token file below (recommended)
 
-For OAuth setup, see [Etsy's OAuth 2.0 Guide](https://developers.etsy.com/documentation/essentials/authentication).
+### Getting a token that doesn't expire every hour
+
+Etsy access tokens expire after about one hour, so a static `ETSY_ACCESS_TOKEN` stops working quickly. The server can instead load a token file and refresh the access token automatically:
+
+1. In your Etsy app settings, add `http://localhost:3003/callback` as a callback URL.
+2. Put `ETSY_API_KEY` (and `ETSY_SHARED_SECRET`, see below) in `.env`.
+3. Run the one-time OAuth (PKCE) helper and click **Allow** on the page it prints:
+
+   ```bash
+   npm run auth
+   ```
+
+   It writes `.etsy-tokens.json` (access + refresh token) in the project root. This file is git-ignored.
+4. Start the server as usual. When Etsy answers `401`, the client refreshes the token once, retries the request and saves the new tokens back to the file.
+
+Options: `ETSY_SCOPES` (default `listings_r listings_w listings_d`), `ETSY_OAUTH_PORT` (default `3003`) and `ETSY_TOKEN_FILE` (custom path for the token file).
+
+### Shared secret
+
+Some Etsy apps reject requests unless the `x-api-key` header is sent as `keystring:shared_secret`. If you get `403` errors with a valid key, set `ETSY_SHARED_SECRET` and the client will send the combined header.
+
+For more details, see [Etsy's OAuth 2.0 Guide](https://developers.etsy.com/documentation/essentials/authentication).
 
 ---
 

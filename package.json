@@ -10,6 +10,7 @@
     "build": "tsc",
     "dev": "ts-node src/main.ts",
     "start": "node dist/main.js",
+    "auth": "node scripts/get-token.cjs",
     "lint": "eslint src --ext .ts",
     "prepublishOnly": "npm run build"
   },

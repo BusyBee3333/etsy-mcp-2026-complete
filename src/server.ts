@@ -1,6 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { EtsyClient } from "./client.js";
+import { EtsyClient, EtsyClientOptions } from "./client.js";
 import { ZodRawShape } from "zod";
 
 type ToolHints = { readOnlyHint?: boolean; destructiveHint?: boolean };
@@ -12,8 +12,8 @@ export class EtsyMCPServer {
   public readonly mcp: McpServer;
   public readonly client: EtsyClient;
 
-  constructor(apiKey: string, accessToken?: string) {
-    this.client = new EtsyClient(apiKey, accessToken);
+  constructor(apiKey: string, accessToken?: string, opts?: EtsyClientOptions) {
+    this.client = new EtsyClient(apiKey, accessToken, opts);
     this.mcp = new McpServer({
       name: "@mcpengine/etsy",
       version: "1.0.0",
