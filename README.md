@@ -36,7 +36,7 @@ The most complete [Model Context Protocol (MCP)](https://modelcontextprotocol.io
 |------|-------------|
 | `etsy_listing_images_list` | List images for a listing |
 | `etsy_listing_image_get` | Get a specific image |
-| `etsy_listing_image_upload` | Upload an image via URL |
+| `etsy_listing_image_upload` | Upload an image from a local file |
 | `etsy_listing_image_delete` | Delete an image |
 | `etsy_listing_images_reorder` | Reorder listing images |
 
@@ -205,7 +205,7 @@ The most complete [Model Context Protocol (MCP)](https://modelcontextprotocol.io
 ### Images, Media & Icons
 | Tool | Description |
 |------|-------------|
-| `etsy_listing_image_upload_url` | Upload image from URL |
+| `etsy_listing_image_upload_file` | Upload image from a local file (rank, alt text) |
 | `etsy_listing_image_set_rank` | Set image display rank |
 | `etsy_listing_image_update_alt` | Update image alt text |
 | `etsy_shop_icon_get` | Get shop icon |
