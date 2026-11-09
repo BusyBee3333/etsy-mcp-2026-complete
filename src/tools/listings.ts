@@ -148,8 +148,8 @@ export function register(server: EtsyMCPServer): void {
       shop_id: z.union([z.number().int(), z.string()]),
       listing_id: z.number().int(),
     },
-    async ({ shop_id, listing_id }) =>
-      c.delete(`/shops/${shop_id}/listings/${listing_id}`),
+    async ({ listing_id }) =>
+      c.delete(`/listings/${listing_id}`),
     { destructiveHint: true }
   );
 
