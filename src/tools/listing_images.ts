@@ -44,18 +44,18 @@ export function register(server: EtsyMCPServer): void {
 
   server.tool(
     "etsy_listing_image_upload",
-    "Upload an image to a listing via URL or base64. Rank 1 is the primary image.",
+    "Upload an image to a listing from a LOCAL FILE PATH on this computer (multipart/form-data). Rank 1 is the primary image.",
     {
       shop_id: z.union([z.number().int(), z.string()]),
       listing_id: z.number().int(),
-      image_url: z.string().url().optional().describe("Publicly accessible image URL"),
+      image_path: z.string().describe("Absolute local path to the image file, e.g. /home/me/photos/product.jpg"),
       rank: z.number().int().min(1).max(10).optional().describe("Image display rank (1 = primary)"),
       overwrite: z.boolean().optional().describe("Overwrite existing image at this rank"),
       alt_text: z.string().max(250).optional().describe("Alt text for accessibility"),
       is_watermarked: z.boolean().optional(),
     },
-    async ({ shop_id, listing_id, ...body }) =>
-      c.post(`/shops/${shop_id}/listings/${listing_id}/images`, body)
+    async ({ shop_id, listing_id, image_path, ...fields }) =>
+      c.uploadImageFile(`/shops/${shop_id}/listings/${listing_id}/images`, image_path, fields)
   );
 
   server.tool(
